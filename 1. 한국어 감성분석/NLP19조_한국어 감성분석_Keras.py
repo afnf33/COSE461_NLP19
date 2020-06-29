@@ -16,8 +16,8 @@ import keras
 train_data = pd.read_csv("nsmc/ratings_train.txt", sep='\t')
 test_data = pd.read_csv("nsmc/ratings_test.txt", sep='\t')
 
-print(train.shape)
-print(test.shape)
+print(train_data.shape)
+print(test_data.shape)
 
 
 # In[2]:
