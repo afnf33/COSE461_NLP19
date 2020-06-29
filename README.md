@@ -12,10 +12,12 @@
 을 진행한 소스 코드입니다.  
 
 대부분의 코드는 임희석 교수님의 [자연어처리 바이블 실습코드](https://github.com/nlpai-lab/nlp-bible-code)와  
-[자연어처리 수업의 실습 예제 1~5](https://github.com/Parkchanjun/KU-NLP-2020-1)을 
+[자연어처리 수업의 실습 예제 1~5](https://github.com/Parkchanjun/KU-NLP-2020-1)을 참고하였습니다. 
 
-추가적으로  
-한국어 감성분석의 경우 SKTBrain에서 공개한 pretrained [KoBERT](https://github.com/SKTBrain/KoBERT) 모델의 도움을 받았습니다.
+
+추가적으로 한국어 감성분석의 경우   
+cyc1am3n님의 [KoNLPy를 이용한 한국어 영화 리뷰 감정 분석](https://cyc1am3n.github.io/2018/11/10/classifying_korean_movie_review.html)과   
+SKTBrain에서 개발한 pretrained [KoBERT](https://github.com/SKTBrain/KoBERT)의 도움을 받았습니다.
 
 #### Requirements
 
