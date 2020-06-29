@@ -174,7 +174,8 @@ model.compile("adam", "CategoricalCrossentropy", metrics=["accuracy"])
 
 ##### 사용법
 
-Google colab 런타임 유형 GPU                                                                                         
+Google colab 런타임 유형 GPU           
+
 자세한 사용법은 깃허브 ipython 파일 참조
 
 
