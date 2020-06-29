@@ -3,76 +3,25 @@
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
 <!-- code_chunk_output -->
-
-- [Korean BERT pre-trained cased (KoBERT)](#korean-bert-pre-trained-cased-kobert)
-  - [Why'?'](#why)
-  - [Training Environment](#training-environment)
-  - [Requirements](#requirements)
-  - [How to install](#how-to-install)
-- [How to use](#how-to-use)
-  - [Using with PyTorch](#using-with-pytorch)
-  - [Using with ONNX](#using-with-onnx)
-  - [Using with MXNet-Gluon](#using-with-mxnet-gluon)
-  - [Tokenizer](#tokenizer)
-- [Subtasks](#subtasks)
-  - [Naver Sentiment Analysis](#naver-sentiment-analysis)
-  - [KoBERT와 CRF로 만든 한국어 객체명인식기](#kobert와-crf로-만든-한국어-객체명인식기)
-- [Version History](#version-history)
-- [Contacts](#contacts)
-- [License](#license)
-
-<!-- /code_chunk_output -->
-
 ---
+### 0. 자연어처리(COSE461 201R)
 
-### Korean BERT pre-trained cased (KoBERT)
+이하의 코드는 고려대학교 자연어처리(COSE461) 수업 내용을 기반으로
+1. 한국어 감성분석
+2. 영어 감성분석
+을 진행한 소스 코드입니다.
 
-#### Why'?'
+대부분의 코드는 [자연어처리 수업의 실습 예제 1~7](https://github.com/Parkchanjun/KU-NLP-2020-1)을 바탕으로 짜여있습니다.
 
-* 구글 [BERT base multilingual cased](https://github.com/google-research/bert/blob/master/multilingual.md)의 한국어 성능 한계
-
-#### Training Environment
-
-* Architecture
-
-```python
-predefined_args = {
-        'attention_cell': 'multi_head',
-        'num_layers': 12,
-        'units': 768,
-        'hidden_size': 3072,
-        'max_length': 512,
-        'num_heads': 12,
-        'scaled': True,
-        'dropout': 0.1,
-        'use_residual': True,
-        'embed_size': 768,
-        'embed_dropout': 0.1,
-        'token_type_vocab_size': 2,
-        'word_embed': None,
-    }
-```
-
-* 학습셋
-
-| 데이터  |  문장  | 단어 |
-|---|---|---|
-| 한국어 위키  |  5M |  54M  |
-| 한국어 뉴스  |  20M | 270M |
-
-* 학습 환경
-  * V100 GPU x 32, Horovod(with InfiniBand)
-
-![2019-04-29 텐서보드 로그](imgs/2019-04-29_TensorBoard.png)
-
-* 사전(Vocabulary)
-  * 크기 : 8,002
-  * 한글 위키 + 뉴스 텍스트 기반으로 학습한 토크나이저(SentencePiece)
-  * Less number of parameters(92M < 110M )
+추가적으로
+한국어 감성분석의 경우 SKTBrain에서 공개한 pretrained [KoBERT](https://github.com/SKTBrain/KoBERT) 모델의 도움을 받았습니다.
 
 #### Requirements
 
 * Python >= 3.6
+* konlpy >= 0.5.2
+* nltk >= 3.4.5
+* tensorflow >= 1.14.0
 * PyTorch >= 1.1.0
 * MXNet >= 1.4.0
 * gluonnlp >= 0.6.0
@@ -80,7 +29,37 @@ predefined_args = {
 * onnxruntime >= 0.3.0
 * transformers >= 2.1.1
 
-#### How to install
+### 1. 한국어 감성분석
+한국어 감성분석은 네이버에서 공개한 [Naver Sentiment Movie Corpus](https://github.com/e9t/nsmc)를 기반으로 하였습니다
+
+#### 1.1 Keras를 이용한 감성분석
+
+* Architecture
+
+```python
+>>> from konlpy.tag import Okt
+>>> okt = Okt()
+>>> selected_words = [f[0] for f in text.vocab().most_common(1000)] 
+
+>>> from tensorflow.keras import models
+>>> from tensorflow.keras import layers
+>>> from tensorflow.keras import optimizers
+>>> from tensorflow.keras import losses
+>>> from tensorflow.keras import metrics
+
+>>> model = models.Sequential()
+>>> model.add(layers.Dense(64, activation='relu', input_shape=(1000,)))
+>>> model.add(layers.Dense(64, activation='relu'))
+>>> model.add(layers.Dense(1, activation='sigmoid'))
+
+>>> model.compile(optimizer=optimizers.RMSprop(lr=0.001),
+             loss=losses.binary_crossentropy,
+             metrics=[metrics.binary_accuracy])
+
+>>> history=model.fit(partial_x_train,partial_y_train,epochs=10,batch_size=512,validation_data=(x_val,y_val))
+```
+
+#### 사용법
 
 ```sh
 git clone https://github.com/SKTBrain/KoBERT.git
@@ -232,3 +211,4 @@ decoding_ner_sentence: [CLS] <SKTBrain:ORG>에서 <KoBERT:POH> 모델을 공개�
 ### License
 
 `KoBERT`는 Apache-2.0 라이선스 하에 공개되어 있습니다. 모델 및 코드를 사용할 경우 라이선스 내용을 준수해주세요. 라이선스 전문은 `LICENSE` 파일에서 확인하실 수 있습니다.
+
