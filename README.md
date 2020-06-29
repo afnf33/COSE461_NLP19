@@ -174,8 +174,6 @@ model.compile(optimizer='adam',
               metrics=['accuracy'])
 ```
 
-![다운로드](https://user-images.githubusercontent.com/29257235/85994457-c84f6900-ba32-11ea-892c-abc11a092170.png)
-
 ##### 환경 및 사용법
 구글 Colab의 환경을 사용했습니다.   
 파일들의 용량이 커서 google drive에 train, dev, test set들과 glove 파일을 두고  
