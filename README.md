@@ -107,8 +107,13 @@ Google Drive 안에 predict할 파일을 준비해주시고 마지막의 'dt' �
 * Architecture
 
 
-##### 환경 및 사용법
 
+##### 환경 및 사용법
+구글 Colab의 환경을 사용했습니다.   
+파일들의 용량이 커서 google drive에 train, dev, test set들과 glove 파일을 두고  
+google drive를 연결했습니다.
+
+파일을 불러올 때 drive 내 파일의 경로를 수정하셔서 쓰시면 됩니다.
 
 
 #### 2.2 CNN-LSTM을 이용한 감성분석
@@ -117,8 +122,12 @@ Google Drive 안에 predict할 파일을 준비해주시고 마지막의 'dt' �
 
 
 
-##### 사용법
+##### 환경 및 사용법
+구글 Colab의 환경을 사용했습니다.   
+파일들의 용량이 커서 google drive에 train, dev, test set들과 glove 파일을 두고  
+google drive를 연결했습니다.
 
+파일을 불러올 때 drive 내 파일의 경로를 수정하셔서 쓰시면 됩니다.
 
 
 
