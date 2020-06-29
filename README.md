@@ -113,10 +113,7 @@ for filter in filters:
   conv_feat = layers.Conv1D(filters=100, 
                             kernel_size=filter, 
                             activation='relu',
-                            padding='valid'  )(seq_embedded) #Convolution Layer
-                            #kernel_regularizer = regularizers.l2(1e-4),
-                            #bias_regularizer = regularizers.l2(1e-4),
-                            #activity_regularizer = regularizers.l2(1e-4)
+                            padding='valid'  )(seq_embedded)
                           
   pooled_feat = layers.GlobalMaxPooling1D()(conv_feat) #MaxPooling
   conv_models.append(pooled_feat)
@@ -125,6 +122,11 @@ conv_merged = layers.concatenate(conv_models, axis=1) #filter size가 2,3,4,5인
 
 model_output = layers.Dropout(0.6)(conv_merged)
 logits = layers.Dense(8, activation='softmax')(model_output)
+
+model = Model(seq_input, logits)
+model.compile(optimizer='adam',
+              loss= losses.CategoricalCrossentropy(),
+              metrics=['accuracy'])
 ```
 
 <img width='1000' src='https://user-images.githubusercontent.com/29119738/85989559-a999a400-ba2b-11ea-93d1-d7591bddcee4.png'>
@@ -144,7 +146,33 @@ Google colab 런타임 유형 GPU 사용하였으며
 #### 2.2 CNN-LSTM을 이용한 감성분석
 
 * Architecture
+```python
+model_lstm = layers.LSTM(128, return_state=False)(seq_embedded)
+filters = [2,3,4,5]
+conv_models = []
+for filter in filters:
+  conv_feat = layers.Conv1D(filters=100, 
+                            kernel_size=filter, 
+                            activation='relu',
+                            padding='valid'  )(seq_embedded) 
+                          
+  pooled_feat = layers.GlobalMaxPooling1D()(conv_feat) #MaxPooling
+  
+  conv_models.append(pooled_feat)
 
+conv_merged = layers.concatenate(conv_models, axis=1) #filter size가 2,3,4,5인 결과들 Concatenation
+
+model_dropout = layers.Dropout(0.5)(conv_merged)
+
+logits = layers.Dense(8, activation='softmax')(model_dropout)
+
+
+
+model = Model(seq_input, logits)
+model.compile(optimizer='adam',
+              loss= losses.CategoricalCrossentropy(),
+              metrics=['accuracy'])
+```
 
 
 ##### 환경 및 사용법
