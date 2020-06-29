@@ -105,9 +105,33 @@ Google Drive 안에 predict할 파일을 준비해주시고 마지막의 'dt' �
 
 * Architecture
 
+```python
+filters = [2,3,4,5]
+conv_models = []
+for filter in filters:
+  conv_feat = layers.Conv1D(filters=100, 
+                            kernel_size=filter, 
+                            activation='relu',
+                            padding='valid'  )(seq_embedded) #Convolution Layer
+                            #kernel_regularizer = regularizers.l2(1e-4),
+                            #bias_regularizer = regularizers.l2(1e-4),
+                            #activity_regularizer = regularizers.l2(1e-4)
+                          
+  pooled_feat = layers.GlobalMaxPooling1D()(conv_feat) #MaxPooling
+  conv_models.append(pooled_feat)
+
+conv_merged = layers.concatenate(conv_models, axis=1) #filter size가 2,3,4,5인 결과들 Concat
+
+model_output = layers.Dropout(0.6)(conv_merged)
+logits = layers.Dense(8, activation='softmax')(model_output)
+```
+
+<img width='1000' src='https://user-images.githubusercontent.com/29119738/85989559-a999a400-ba2b-11ea-93d1-d7591bddcee4.png'>
 
 ##### 환경 및 사용법
 
+Google colab 런타임 유형 GPU
+자세한 사용법은 깃허브 ipython 파일 참조
 
 
 #### 2.2 CNN-LSTM을 이용한 감성분석
@@ -125,14 +149,35 @@ Google Drive 안에 predict할 파일을 준비해주시고 마지막의 'dt' �
 
 * Architecture
 
+```python
+embed_dim = 32  # Embedding size for each token, 논문에서는 512차원
+num_heads = 2  # Number of attention heads, 논문에서는 8개
+ff_dim = 32  # Hidden layer size in feed forward network inside transformer, 논문에서는 2048차원
+maxlen = MAX_SEQUENCE_LEN
+inputs = layers.Input(shape=(maxlen,)) #처음 입력
+embedding_layer = TokenAndPositionEmbedding(maxlen, VOCAB_SIZE, embed_dim) #객체 생성
+transformer_block = TransformerBlock(embed_dim, num_heads, ff_dim) #객체 생성
 
+x = embedding_layer(inputs)  #포지셔널 임베딩
+x = transformer_block(x) #트랜스포머 
+x = layers.GlobalAveragePooling1D()(x) #Average Pooling
+x = layers.Dropout(0.5)(x) #드롯아웃
+x = layers.Dense(20, activation="relu")(x) #FFNN
+x = layers.Dropout(0.5)(x) #드롭아웃
+outputs = layers.Dense(8, activation="softmax")(x) #Softmax
+
+model = keras.Model(inputs=inputs, outputs=outputs) #모델 생성
+model.compile("adam", "CategoricalCrossentropy", metrics=["accuracy"])
+```
 
 
 ##### 사용법
 
-
+Google colab 런타임 유형 GPU
+자세한 사용법은 깃허브 ipython 파일 참조
 
 
 ### 참고자료
 
-[koBERT를 이용한 한국어 감성분석](https://github.com/SKTBrain/KoBERT/blob/master/scripts/NSMC/naver_review_classifications_gluon_kobert.ipynb)
+[koBERT를 이용한 한국어 감성분석](https://github.com/SKTBrain/KoBERT/blob/master/scripts/NSMC/naver_review_classifications_gluon_kobert.ipynb),
+[KU-NLP-2020-1](https://github.com/Parkchanjun/KU-NLP-2020-1)
