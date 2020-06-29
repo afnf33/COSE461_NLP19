@@ -6,15 +6,15 @@
 ---
 ### 0. 자연어처리(COSE461 201R) 팀프로젝트 19조 : 박건우, 오영운, 황이레
 
-이하의 코드는 고려대학교 자연어처리(COSE461) 수업 내용을 기반으로
-1. 한국어 감성분석
-2. 영어 감성분석
-을 진행한 소스 코드입니다.
+이하의 코드는 고려대학교 자연어처리(COSE461) 수업 내용을 기반으로  
+1. 한국어 감성분석  
+2. 영어 감성분석  
+을 진행한 소스 코드입니다.  
 
-대부분의 코드는 임희석 교수님의 [자연어처리 바이블 실습코드](https://github.com/nlpai-lab/nlp-bible-code)와
+대부분의 코드는 임희석 교수님의 [자연어처리 바이블 실습코드](https://github.com/nlpai-lab/nlp-bible-code)와  
 [자연어처리 수업의 실습 예제 1~5](https://github.com/Parkchanjun/KU-NLP-2020-1)을 
 
-추가적으로
+추가적으로  
 한국어 감성분석의 경우 SKTBrain에서 공개한 pretrained [KoBERT](https://github.com/SKTBrain/KoBERT) 모델의 도움을 받았습니다.
 
 #### Requirements
@@ -32,7 +32,7 @@
 * transformers >= 2.1.1
 
 ### 1. 한국어 감성분석
-한국어 감성분석은 네이버에서 공개한 [Naver Sentiment Movie Corpus](https://github.com/e9t/nsmc)를 기반으로
+한국어 감성분석은 네이버에서 공개한 [Naver Sentiment Movie Corpus](https://github.com/e9t/nsmc)를 기반으로  
 긍정적인 반응(1)과 부정적인 반응(0)을 분류하는 모델을 학습하였습니다
 
 #### 1.1 Keras를 이용한 감성분석
@@ -63,8 +63,9 @@
 ```
 
 ##### 환경 및 사용법
-Jupyter Notebook 환경에서 코드를 실행했습니다
-해당 파일의 주석을 참고하여 그대로 돌리시되, 형태소 분석 결과를 JSON 파일로 저장하고 싶지 않다면 중간 부분의 주석 처리된 부분만 돌려주세요.
+
+Jupyter Notebook 환경에서 코드를 실행했습니다  
+해당 파일의 주석을 참고하여 그대로 돌리시되, 형태소 분석 결과를 JSON 파일로 저장하고 싶지 않다면 중간 부분의 주석 처리된 부분만 돌려주세요.  
 새로운 데이터를 예측할 때에는 마지막 부분의 new_data 항목을 변경해서 Model.predict()를 실행해주시면 됩니다
 
 #### 1.2 koBERT를 이용한 감성분석
@@ -98,7 +99,7 @@ Google Drive 안에 predict할 파일을 준비해주시고 마지막의 'dt' �
 
 ----
 ### 2. 영어 감성분석
-영어 감성분석은  [Friends EmotionLines](http://doraemon.iis.sinica.edu.tw/emotionlines/download.html)데이터셋을 기반으로
+영어 감성분석은  [Friends EmotionLines](http://doraemon.iis.sinica.edu.tw/emotionlines/download.html)데이터셋을 기반으로  
 'neutral','joy','sadness','fear','anger','surprise','disgust'의 7가지 감정을 분류하는 모델을 학습하였습니다. 
 
 #### 2.1 CNN 이용한 감성분석
@@ -128,10 +129,15 @@ logits = layers.Dense(8, activation='softmax')(model_output)
 
 <img width='1000' src='https://user-images.githubusercontent.com/29119738/85989559-a999a400-ba2b-11ea-93d1-d7591bddcee4.png'>
 
+
 ##### 환경 및 사용법
+구글 Colab의 환경을 사용했습니다.   
+파일들의 용량이 커서 google drive에 train, dev, test set들과 glove 파일을 두고  
+google drive를 연결했습니다.
+파일을 불러올 때 drive 내 파일의 경로를 수정하셔서 쓰시면 됩니다.
 
-Google colab 런타임 유형 GPU
 
+Google colab 런타임 유형 GPU 사용하였으며
 자세한 사용법은 깃허브 ipython 파일 참조
 
 
@@ -141,8 +147,12 @@ Google colab 런타임 유형 GPU
 
 
 
-##### 사용법
+##### 환경 및 사용법
+구글 Colab의 환경을 사용했습니다.   
+파일들의 용량이 커서 google drive에 train, dev, test set들과 glove 파일을 두고  
+google drive를 연결했습니다.
 
+파일을 불러올 때 drive 내 파일의 경로를 수정하셔서 쓰시면 됩니다.
 
 
 
