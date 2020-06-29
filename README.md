@@ -100,7 +100,7 @@ Google Drive 안에 predict할 파일을 준비해주시고 마지막의 'dt' �
 ----
 ### 2. 영어 감성분석
 영어 감성분석은  [Friends EmotionLines](http://doraemon.iis.sinica.edu.tw/emotionlines/download.html)데이터셋을 기반으로  
-'neutral','joy','sadness','fear','anger','surprise','disgust'의 7가지 감정을 분류하는 모델을 학습하였습니다. 
+'neutral','joy','sadness','fear','anger','surprise','disgust', 'non-neutral'의 8가지 감정을 분류하는 모델을 학습하였습니다. 
 
 #### 2.1 CNN 이용한 감성분석
 
