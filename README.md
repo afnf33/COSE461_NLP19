@@ -147,9 +147,9 @@ Google colab 런타임 유형 GPU 사용하였으며
 
 * Architecture
 ```python
-model_lstm = layers.LSTM(128, return_state=False)(seq_embedded)
+model_lstm = layers.LSTM(256, return_state=False)(seq_embedded)
 filters = [2,3,4,5]
-conv_models = []
+conv_models = [model_lstm]
 for filter in filters:
   conv_feat = layers.Conv1D(filters=100, 
                             kernel_size=filter, 
